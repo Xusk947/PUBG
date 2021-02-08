@@ -24,7 +24,7 @@ public class Lobby {
     public static float angle = 0;
     public static float zone = 125f;
     public static float centreX, centreY;
-    public static int startTime = 5, startTimer = 0;
+    public static int startTime = 30, startTimer = 0;
     public static Interval interval = new Interval(2);
 
     public static void onPlayerJoin(Player player) {

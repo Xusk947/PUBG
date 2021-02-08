@@ -183,7 +183,6 @@ public class Game {
                     if (!unit.dead && (unit.team != Team.derelict && unit.team != Team.sharded) && unit.team != lastUnit.team && lastUnit != unit) {
                         end = false;
                         lastUnit = unit;
-                        Log.info(unit + " | " + unit.x + " : " + unit.y + " | " + lastUnit);
                     }
                 }
                 // end game if only 1 player
@@ -206,7 +205,11 @@ public class Game {
         for (int r = 0; r < v; r++) {
             Call.effect(Fx.fire, centreX + Angles.trnsx(r * (v / 30), dangerZoneRadius, 0), centreY + Angles.trnsy(r * (v / 30), dangerZoneRadius, 0), 0, Color.white);
         }
-        Log.info(v + " : " +  (float) (dangerZoneMaxRadius / (dangerZoneMaxRadius / 100)) + " : " + dangerZoneRadius);
+        Groups.unit.each(unit -> {
+            if (unit.dst(centreX, centreY) > dangerZoneRadius) {
+                unit.kill();
+            }
+        });
     }
     
     public static void go() {
