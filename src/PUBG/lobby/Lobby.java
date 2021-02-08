@@ -42,6 +42,7 @@ public class Lobby {
     }
 
     public static void update() {
+        Groups.player.each(p -> {p.team(Team.sharded);});
         angle += 0.5f;
         if (interval.get(0, 60)) {
             startTimer--;
@@ -49,8 +50,10 @@ public class Lobby {
         }
 
         if (startTimer > 0) {
-            for (int r = 0; r < 10; r++) {
-                Call.effect(Fx.fire, centreX + Angles.trnsx(angle + (36 * r), zone, 0), centreY + Angles.trnsy(angle + (36 * r), zone, 0), 0, Color.white);
+            if (interval.get(1, 3)) {
+                for (int r = 0; r < 3; r++) {
+                    Call.effect(Fx.heal, centreX + Angles.trnsx(angle + (130 * r), zone, 0), centreY + Angles.trnsy(angle + (130 * r), zone, 0), 0, Color.gold);
+                }
             }
         } else {
             Game.go();

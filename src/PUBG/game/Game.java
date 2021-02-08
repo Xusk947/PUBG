@@ -39,11 +39,13 @@ public class Game {
     public static int dropTimerStart = 60 * 14, dropTimer = 0;
     public static float centreX, centreY;
     public static float dropDistance = 250f;
-    public static float dangerZoneMaxRadius = 1000f,
-            dangerZoneRadius =dangerZoneMaxRadius;
     public static boolean dropTimerIs = false, gameEnd = false, dropTimeIsClose = false;
 
     public static Rules rules;
+    
+    public static Interval dangerZoneInterval = new Interval(2); 
+    public static float dangerZoneMaxRadius = 1000f,
+            dangerZoneRadius =dangerZoneMaxRadius;
 
     public static Seq<PlayerData> inGamePlayers = new Seq<>();
     public static Seq<Unit> lootZone = new Seq<>();
@@ -75,8 +77,10 @@ public class Game {
         // quad zone
         if (dropper != null) {
             dropper.moveAt(new Vec2(1, 1));
-            for (int r = 0; r < 36; r++) {
-                Call.effect(Fx.fire, dropper.x + Angles.trnsx(r * 10, dropDistance, 0), dropper.y + Angles.trnsy(r * 10, dropDistance, 0), 0, Color.white);
+            if (dangerZoneInterval.get(1, 30)) {
+                for (int r = 0; r < 18; r++) {
+                    Call.effect(Fx.fireSmoke, dropper.x + Angles.trnsx(r * 20, dropDistance, 0), dropper.y + Angles.trnsy(r * 20, dropDistance, 0), 0, Color.white);
+                }
             }
         }
         // quad zone end
@@ -195,15 +199,17 @@ public class Game {
                 endGame(Team.derelict);
             }
         }
-        updateDangerZone();
+        if (dangerZoneInterval.get(0, 60)) {
+            updateDangerZone();
+        }
     }
     
     public static void updateDangerZone() {
         dangerZoneRadius -= 0.2f;
         float v = (dangerZoneMaxRadius / (dangerZoneMaxRadius / 100));
-        v = v < 50 ? 90 : 120;
+        v = v < 50 ? 45 : 90;
         for (int r = 0; r < v; r++) {
-            Call.effect(Fx.fire, centreX + Angles.trnsx(r * (v / 30), dangerZoneRadius, 0), centreY + Angles.trnsy(r * (v / 30), dangerZoneRadius, 0), 0, Color.white);
+            Call.effect(Fx.fire, centreX + Angles.trnsx(r * (v / 15), dangerZoneRadius, 0), centreY + Angles.trnsy(r * (v / 15), dangerZoneRadius, 0), 0, Color.white);
         }
         Groups.unit.each(unit -> {
             if (unit.dst(centreX, centreY) > dangerZoneRadius) {
