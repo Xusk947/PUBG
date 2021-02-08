@@ -79,7 +79,7 @@ public class Game {
             dropper.moveAt(new Vec2(1, 1));
             if (dangerZoneInterval.get(1, 30)) {
                 for (int r = 0; r < 18; r++) {
-                    Call.effect(Fx.fireSmoke, dropper.x + Angles.trnsx(r * 20, dropDistance, 0), dropper.y + Angles.trnsy(r * 20, dropDistance, 0), 0, Color.white);
+                    Call.effect(Fx.smelt, dropper.x + Angles.trnsx(r * 20, dropDistance, 0), dropper.y + Angles.trnsy(r * 20, dropDistance, 0), 0, Color.orange);
                 }
             }
         }
@@ -209,7 +209,7 @@ public class Game {
         float v = (dangerZoneMaxRadius / (dangerZoneMaxRadius / 100));
         v = v < 50 ? 45 : 90;
         for (int r = 0; r < v; r++) {
-            Call.effect(Fx.fire, centreX + Angles.trnsx(r * (v / 15), dangerZoneRadius, 0), centreY + Angles.trnsy(r * (v / 15), dangerZoneRadius, 0), 0, Color.white);
+            Call.effect(Fx.smelt, centreX + Angles.trnsx(r * (v / 15), dangerZoneRadius, 0), centreY + Angles.trnsy(r * (v / 15), dangerZoneRadius, 0), 0, Color.red);
         }
         Groups.unit.each(unit -> {
             if (unit.dst(centreX, centreY) > dangerZoneRadius) {
