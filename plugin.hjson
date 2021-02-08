@@ -1,0 +1,6 @@
+name: "PUBG",
+author: "[white]Xusk",
+description: "PUBG.",
+version: 0.1
+main: "PUBG.MainX",
+
